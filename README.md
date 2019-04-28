@@ -12,6 +12,8 @@ You need to pass in a global variable "workflow". The value should be a json lis
 ### Newman :
 ```
 newman run <collection.json> --global-var "workflow=<json list of request names>"
+
+#Example
 newman run Postman_Multiple_Workflows_Sample.postman_collection.json --global-var "workflow=[\"Create Employee\",\"Update Employee\"]"
 ```
 
