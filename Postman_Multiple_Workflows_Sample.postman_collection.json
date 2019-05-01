@@ -7,7 +7,7 @@
 	},
 	"item": [
 		{
-			"name": "Dummy Init Request (Should be first)",
+			"name": "Dummy Init Request (Do not remove, Should be first)",
 			"request": {
 				"method": "GET",
 				"header": [],
