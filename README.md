@@ -7,7 +7,7 @@ You need to pass in a global variable "workflow". The value should be a json lis
 
 ### Postman 
 	1.	Set a global variable named workflow.
-	2.	Run the collection
+	2.	Run the collection . [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/6c8152b713ada712325c)
 
 ### Newman :
 ```
@@ -18,7 +18,7 @@ newman run Postman_Multiple_Workflows_Sample.postman_collection.json --global-va
 ```
 
 
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/6c8152b713ada712325c)
+
 
 
 Note : Do not remove the initial dummy init request.
