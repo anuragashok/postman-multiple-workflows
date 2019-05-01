@@ -1,0 +1,240 @@
+{
+	"info": {
+		"_postman_id": "e6e5fdb6-6281-4be8-8fde-78983340e4ca",
+		"name": "Postman Multiple Workflows Sample",
+		"description": "# Postman Multiple Workflows\nA workaround to have multiple simple workflows in a postman collection\n\nYou need to pass in a global variable \"workflow\". The value should be a json list of the names of the requests to be called in order of execution desired.\n\n## Usage\n\n### Postman \n\t1.\tSet a global variable named workflow.\n\t2.\tRun the collection\n\n### Newman :\n```\nnewman run <collection.json> --global-var \"workflow=<json list of request names>\"\nnewman run Postman_Multiple_Workflows_Sample.postman_collection.json --global-var \"workflow=[\\\"Create Employee\\\",\\\"Update Employee\\\"]\"\n```\n\n\n\nNote : Do not remove the initial dummy init request.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Dummy Init Request (Should be first)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://www.google.com",
+					"protocol": "http",
+					"host": [
+						"www",
+						"google",
+						"com"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Employee",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "180b5893-79d5-47da-a564-0f06a976326f",
+						"exec": [
+							"var response = pm.response.json();",
+							"pm.globals.set(\"userid\",response.id);",
+							"pm.globals.set(\"username\",response.name);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"user1{{$guid}}\",\n    \"salary\": \"1000\",\n    \"age\": \"11\"\n}"
+				},
+				"url": {
+					"raw": "http://dummy.restapiexample.com/api/v1/create",
+					"protocol": "http",
+					"host": [
+						"dummy",
+						"restapiexample",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"create"
+					]
+				},
+				"description": "Calls a dummy API to create an employee record"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Employee",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "180b5893-79d5-47da-a564-0f06a976326f",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"{{username}}\",\n    \"salary\": \"1111\",\n    \"age\": \"11\"\n}"
+				},
+				"url": {
+					"raw": "http://dummy.restapiexample.com/api/v1/update/{{userid}}",
+					"protocol": "http",
+					"host": [
+						"dummy",
+						"restapiexample",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"update",
+						"{{userid}}"
+					]
+				},
+				"description": "Calls a dummy API to update an employee record"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Employee",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "180b5893-79d5-47da-a564-0f06a976326f",
+						"exec": [
+							"var response = pm.response.json();",
+							"pm.globals.set(\"userid\",response.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://dummy.restapiexample.com/api/v1/employee/{{userid}}",
+					"protocol": "http",
+					"host": [
+						"dummy",
+						"restapiexample",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"employee",
+						"{{userid}}"
+					]
+				},
+				"description": "Calls a dummy API to get the created employee record"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "10f4f8bc-365e-4b72-8ab0-f8d66e22ad0d",
+				"type": "text/javascript",
+				"exec": [
+					"/* ",
+					"This \"collection pre-request script\" is run before every request.",
+					"",
+					"The script initializes global variable requestIndex",
+					"",
+					"Read more @ https://learning.getpostman.com/docs/postman/scripts/intro_to_scripts/",
+					"*/",
+					"var initDone =  pm.globals.get(\"initDone\");",
+					"var workflowString = pm.globals.get(\"workflow\");",
+					"console.log(\"initDone = \" + initDone);",
+					"console.log(\"workflowString = \" + workflowString);",
+					"if(!initDone && workflowString){",
+					"    console.log(\"executing init block\");",
+					"    ",
+					"    // set requestIndex to initial value of 0",
+					"    pm.globals.set(\"requestIndex\",0);",
+					"    ",
+					"    console.log(\"workflow = \" + JSON.parse[workflowString]);",
+					"    ",
+					"    // set flag to ensure this block is not called again for next request",
+					"    pm.globals.set(\"initDone\",\"true\");",
+					"}",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "2063aad7-7297-4a54-b3e2-796bafd7e474",
+				"type": "text/javascript",
+				"exec": [
+					"/* ",
+					"This \"collection test script\" is run after every request.",
+					"",
+					"The script uses the global variables \"workflow\" and \"requestIndex\" (set in Pre-request) to find the next request to be run.",
+					"",
+					"postman.setNextRequest is called to set the next request.",
+					"",
+					"Note: postman.setNextRequest called from \"Tests\" in individual requests will override this value.",
+					"",
+					"Read more @ https://learning.getpostman.com/docs/postman/scripts/intro_to_scripts/",
+					"",
+					"*/",
+					"var workflowString = pm.globals.get(\"workflow\")",
+					"// run the custom logic only if workflow is set;",
+					"// else let requests run in postman's default order",
+					"if(workflowString){",
+					"    var workflow = JSON.parse(pm.globals.get(\"workflow\"));",
+					"    var requestIndex = pm.globals.get(\"requestIndex\");",
+					"    console.log(\"requestIndex = \" + requestIndex);",
+					"    var nextRequest = workflow[requestIndex++];",
+					"    if(!nextRequest){",
+					"        nextRequest = null; // indicates end of workflow",
+					"    }",
+					"    console.log(\"nextRequest = \" + nextRequest);",
+					"    pm.globals.set(\"requestIndex\",requestIndex);",
+					"    postman.setNextRequest(nextRequest);",
+					"}"
+				]
+			}
+		}
+	]
+}
