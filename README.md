@@ -5,9 +5,9 @@ You need to pass in a global variable "workflow". The value should be a json lis
 
 ## Usage
 
-### Postman 
+### Postman [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/6c8152b713ada712325c)
 	1.	Set a global variable named workflow.
-	2.	Run the collection . [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/6c8152b713ada712325c)
+	2.	Run the collection.
 
 ### Newman :
 ```
