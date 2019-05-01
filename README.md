@@ -18,3 +18,5 @@ newman run Postman_Multiple_Workflows_Sample.postman_collection.json --global-va
 ```
 
 Note : Do not remove the initial dummy init request.
+
+Please [create an issue](https://github.com/anuragashok/Postman-Multiple-Workflows/issues/new) if you find any issues running the collection.
