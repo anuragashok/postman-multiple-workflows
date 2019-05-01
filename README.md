@@ -18,5 +18,7 @@ newman run Postman_Multiple_Workflows_Sample.postman_collection.json --global-va
 ```
 
 
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/6c8152b713ada712325c)
+
 
 Note : Do not remove the initial dummy init request.
